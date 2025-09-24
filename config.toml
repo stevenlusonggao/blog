@@ -1,0 +1,25 @@
+# The URL the site will be built for
+base_url = "https://github.com/stevenlusonggao/blog"
+
+# Whether to automatically compile all Sass files in the sass directory
+compile_sass = true
+# Whether to build a search index to be used later on by a JavaScript library
+build_search_index = true
+
+theme = "terminus"
+title = "Steven Lu Song Gao"
+
+[markdown]
+# Whether to do syntax highlighting
+# Theme can be customised by setting the `highlight_theme` variable to a theme supported by Zola
+highlight_code = true
+highlight_theme = "ayu-dark"
+
+[extra]
+# Put all your custom variables here
+favicon_emoji = "🔥"
+socials = [
+    { name = "email", url = "mailto:steven.lusong@gmail.com" },
+    { name = "github", url = "https://github.com/stevenlusonggao" },
+    { name = "linkedin", url = "https://www.linkedin.com/in/stevenlusonggao/" },
+]
