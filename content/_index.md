@@ -9,7 +9,7 @@ After obtaining degrees in both Computer Science and Business Administration, I 
 
 Overtime, I got increasingly more interested in the start-up world. This led me to join [YipitData](https://www.yipitdata.com/), an emerging alternative data research provider to hedge funds and investment firms. During my tenure, I used `Python` and `SQL` and distilled complex transaction and web-scraped data into actionable insights for some of the sharpest investors in the world. Some of my research was also featured on the [WSJ](https://youtu.be/5YO0oLuVU7w?si=V2ulGcd1dI6hnhCb&t=20). 
 
-After leaving YipitData, I'm currently on sabbaticalm and I have traveled to 6 countries in the past year so far. I'm also working on building [BlueBird Genesis](https://bluebirdgenesis.com/), an algorithmic trading firm focused on crypto-assets. I learned alot about the `Rust` programming language and writing performant code needed to sustain latency-sensitive trading systems. 
+After leaving YipitData, I'm currently on sabbatical and so far I have traveled to 6 countries in the past year. I'm also working on building [BlueBird Genesis](https://bluebirdgenesis.com/), an algorithmic trading firm focused on crypto-assets. Delving deep into the realms of `Rust` and [Solana]("https://solana.com/"), I'm having a blast writing performant code needed to sustain latency-sensitive trading systems. 
 
 We are currently living through the most significant transformation of the capital markets in generations, driven by the advancement of blockchain and AI technologies. I'm committed to making a meaningful impact during this exciting time in history. 
 
