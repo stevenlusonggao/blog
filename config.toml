@@ -28,6 +28,7 @@ highlight_theme = "ayu-dark"
 
 [extra]
 # Put all your custom variables here
+favicon = "/favicon.png"
 theme = "toggle"              # light, dark, auto, toggle
 fancy_code = true
 dynamic_note = true           # a note that can be toggled

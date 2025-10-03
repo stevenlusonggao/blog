@@ -5,7 +5,7 @@ template = "homepage.html"
 
 I'm a data analyst and software developer residing at the intersection of capital markets and technology. I'm interested in opportunities that can leverage my experience in both investment/data research and software development.
 
-After obtaining degrees in both Computer Science and Business Administration, I worked at [DRW Trading Group](https://www.drw.com/), where I helped develop and refine event-driven equities trading strategies. I sharpened my knack for identifying material stock price catalysts through developing systematic strategies for monitoring news events.    
+After obtaining degrees in both Computer Science and Business Administration, I worked at [DRW](https://www.drw.com/), where I helped develop and refine event-driven equities trading strategies. I sharpened my knack for identifying material stock price catalysts through developing systematic strategies for monitoring news events.    
 
 Overtime, I got increasingly more interested in the start-up world. This led me to join [YipitData](https://www.yipitdata.com/), an emerging alternative data research provider to hedge funds and investment firms. During my tenure, I used `Python` and `SQL` and distilled complex transaction and web-scraped data into actionable insights for some of the sharpest investors in the world. Some of my research was also featured on the [WSJ](https://youtu.be/5YO0oLuVU7w?si=V2ulGcd1dI6hnhCb&t=20). 
 
