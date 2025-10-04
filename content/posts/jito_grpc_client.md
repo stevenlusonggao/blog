@@ -37,7 +37,7 @@ async fn main() -> JitoClientResult<()> {
     ];
     
     // Send bundle
-    let uuid = client.send(transactions).await?;
+    let uuid = client.send(&transactions).await?;
     println!("Bundle submitted with UUID: {}", uuid);
     
     Ok(())
@@ -89,7 +89,7 @@ let client = JitoClient::new("http://ny.testnet.blockengine.jito.wtf:443", Some(
 
 # Transaction Submission
 
-## `send(transactions: Vec<VersionedTransaction>) -> JitoClientResult<String>`
+## `send(transactions: &[VersionedTransaction]) -> JitoClientResult<String>`
 
 Sends a bundle of transactions to a Node via gRPC.
 
@@ -108,13 +108,13 @@ use solana_transaction::versioned::VersionedTransaction;
 
 let transactions = vec![/* your VersionedTransaction */];
 
-match client.send(transactions).await {
+match client.send(&transactions).await {
     Ok(uuid) => println!("Bundle submitted with UUID: {}", uuid),
     Err(e) => eprintln!("Failed to send bundle: {}", e),
 }
 ```
 
-## `send_with_retry(transactions: Vec<VersionedTransaction>, retry_logic: RetryLogic) -> JitoClientResult<String>` 
+## `send_with_retry(transactions: &[VersionedTransaction], retry_logic: RetryLogic) -> JitoClientResult<String>` 
 
 Sends a bundle of transactions with automatic retry logic by using random jitter between attempts.
 
@@ -132,7 +132,7 @@ use solana_transaction::versioned::VersionedTransaction;
 let retry_config = RetryLogic::new(3);
 let transactions = vec![/* your VersionedTransaction */];
 
-match client.send_with_retry(transactions, retry_config).await {
+match client.send_with_retry(&transactions, retry_config).await {
     Ok(uuid) => println!("Bundle submitted with UUID: {}", uuid),
     Err(e) => eprintln!("Bundle failed: {}", e),
 }
