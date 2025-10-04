@@ -12,7 +12,7 @@ As a frequent user of [Jito](https://docs.jito.wtf/), anywhere I look online, th
 
 Currently, this library only supports non-auth connections, though an auth key connection can be implemented in the future if there's enough interest.
 
-[Crate.io](https://crates.io/crates/jito-grpc-client) | [Github](https://github.com/stevenlusonggao/jito_grpc_client)
+[Crates.io](https://crates.io/crates/jito-grpc-client) | [Github](https://github.com/stevenlusonggao/jito_grpc_client)
 
 # Features
 
