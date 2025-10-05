@@ -82,7 +82,7 @@ Creates a new client instance connected to a specific endpoint.
 let client = JitoClient::new("https://ny.mainnet.block-engine.jito.wtf:443", None).await?;
 
 // Connect with custom timeout
-let client = JitoClient::new("http://ny.testnet.blockengine.jito.wtf:443", Some(10)).await?;
+let client = JitoClient::new("http://ny.testnet.block-engine.jito.wtf:443", Some(10)).await?;
 ```
 
 ---
