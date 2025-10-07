@@ -143,8 +143,5 @@ Solana addresses use Base58 encoding, which excludes visually ambiguous characte
 
 ## Support
 
-For issues, questions, or suggestions, please open an issue on GitHub.
+For issues, questions, or suggestions, please open an issue on [Github](https://github.com/stevenlusonggao/solana_vanity_address). Contributions are welcome! Please feel free to submit a Pull Request.
 
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
