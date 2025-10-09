@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en" class="dark light">
+
+    <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="base" content="https:&#x2F;&#x2F;stevenlusonggao.github.io&#x2F;blog">
+
+    
+
+    
+    
+    
+        <title>
+            
+                Jito gRPC Client
+            
+        </title>
+
+        
+            <meta property="og:title"
+                  content="Jito gRPC Client" />
+        
+    
+
+    
+        
+            <meta property="og:description" content="My Blog" />
+        
+    
+
+    
+        
+            <meta name="description" content="My Blog" />
+        
+    
+
+    
+    
+        <link rel="icon"
+              type="image/png"
+              href="https://stevenlusonggao.github.io/blog/favicon.png" />
+    
+
+    
+    
+        <link href=https://stevenlusonggao.github.io/blog/fonts.css rel="stylesheet" />
+    
+
+    
+    
+
+    
+    
+
+    
+    <script defer src=https://stevenlusonggao.github.io/blog/js/codeblock.js></script>
+
+    
+    <script defer src=https://stevenlusonggao.github.io/blog/js/toc.js></script>
+
+    
+    
+        <script src=https://stevenlusonggao.github.io/blog/js/note.js></script>
+    
+
+    
+        
+            <script>
+            MathJax = {
+              tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+              }
+            };
+            </script>
+        
+        <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+        </script>
+    
+
+    
+    
+
+
+    
+    
+        <link rel="stylesheet"
+              type="text/css"
+              href="https://stevenlusonggao.github.io/blog/theme/light.css" />
+        <link id="darkModeStyle"
+              rel="stylesheet"
+              type="text/css"
+              href="https://stevenlusonggao.github.io/blog/theme/dark.css" />
+    
+
+    <!-- Set the correct theme in the script -->
+
+    
+        <script src=https://stevenlusonggao.github.io/blog/js/themetoggle.js></script>
+
+        
+            <script>setTheme(getSavedTheme());</script>
+        
+    
+
+
+    <link rel="stylesheet"
+          type="text/css"
+          media="screen"
+          href="https://stevenlusonggao.github.io/blog/main.css" />
+
+    
+
+    
+        <script defer
+                src="https://stevenlusonggao.github.io/blog/js/searchElasticlunr.min.js?h=3626c0ef99daa745b31e"></script></head>
+
+
+    <body>
+        <div class="left-content">
+            
+            
+        </div>
+
+        <div class="content">
+            <nav>
+    <div class="left-nav">
+        
+            <a href=https:&#x2F;&#x2F;stevenlusonggao.github.io&#x2F;blog>Steven Lu Song Gao</a>
+        
+
+
+        <div class="socials">
+            
+                <a rel="me" href="https:&#x2F;&#x2F;github.com&#x2F;stevenlusonggao" class="social">
+                    <img alt="github"
+                         src="https://stevenlusonggao.github.io/blog/icons/social/github.svg">
+                </a>
+            
+                <a rel="me" href="https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;stevenlusonggao&#x2F;" class="social">
+                    <img alt="linkedin"
+                         src="https://stevenlusonggao.github.io/blog/icons/social/linkedin.svg">
+                </a>
+            
+                <a rel="me" href="mailto:steven.lusong@gmail.com" class="social">
+                    <img alt="email"
+                         src="https://stevenlusonggao.github.io/blog/icons/social/email.svg">
+                </a>
+            
+        </div>
+    </div>
+
+    <div class="right-nav">
+        
+            <a href=https://stevenlusonggao.github.io/blog/posts style="margin-right: 0.5em">&#x2F;posts</a>
+        
+            <a href=https://stevenlusonggao.github.io/blog/tags style="margin-right: 0.5em">&#x2F;tags</a>
+        
+
+        
+            <button id="search-button"
+                    class="search-button"
+                    title="$SHORTCUT to open search">
+                <img src="https://stevenlusonggao.github.io/blog/icons/search.svg"
+                     alt="Search"
+                     class="search-icon">
+            </button>
+
+            <div id="searchModal"
+                 class="search-modal js"
+                 role="dialog"
+                 aria-labelledby="modalTitle">
+                <div id="modal-content">
+                    <h1 id="modalTitle" class="page-header">Search</h1>
+                    <div id="searchBar">
+                        <input id="searchInput"
+                               role="combobox"
+                               autocomplete="off"
+                               spellcheck="false"
+                               aria-expanded="false"
+                               aria-controls="results-container"
+                               placeholder="Search..." />
+                        <button id="clear-search" class="clear-button" title="Clear search">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
+                                <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="results-container">
+                        <div id="results-info">
+                            <span id="zero_results" style="display: none;">No results</span>
+                            <span id="one_result" style="display: none;">1 result</span>
+                            <span id="many_results" style="display: none;">$NUMBER results</span>
+                        </div>
+                        <div id="results" role="listbox"></div>
+                    </div>
+                </div>
+            </div>
+        
+
+        
+            <a id="dark-mode-toggle"
+               onclick="toggleTheme(); event.preventDefault();"
+               href="#">
+                <img src="https://stevenlusonggao.github.io/blog/icons/sun.svg"
+                     id="sun-icon"
+                     style="filter: invert(1)"
+                     alt="Light" />
+                <img src=https://stevenlusonggao.github.io/blog/icons/moon.svg id="moon-icon" alt="Dark" />
+            </a>
+
+            <!-- Initialize the theme toggle icons -->
+            <script>updateItemToggleTheme()</script>
+        
+    </div>
+</nav>
+
+
+            
+            
+    
+    <div class="visible-element-observer-root" data-selector="main article p">
+        <main>
+            <article>
+                <div class="title">
+                    
+                    
+    <div class="page-header">Jito gRPC Client</div>
+
+
+                    <div class="meta">
+                        
+                            Posted on <time>2025-10-03</time>
+                        
+
+
+                        
+
+                        
+
+                        
+
+                        
+                        
+
+                        
+                        
+
+                        
+                        
+                            <span class="tags-label">::</span>
+                            <span class="tags">
+                                    <a href="https://stevenlusonggao.github.io/blog/tags/project/"
+                                       class="post-tag">project</a>
+                                
+                                    <a href="https://stevenlusonggao.github.io/blog/tags/solana/"
+                                       class="post-tag">solana</a>
+                                
+                                    <a href="https://stevenlusonggao.github.io/blog/tags/jito/"
+                                       class="post-tag">jito</a>
+                                
+                                    <a href="https://stevenlusonggao.github.io/blog/tags/rust/"
+                                       class="post-tag">rust</a>
+                                
+                            </span>
+                        
+
+                        
+
+                    </div>
+                </div>
+
+                
+
+                <section class="body">
+                    <h1 id="intro"><a class="zola-anchor" href="#intro" aria-label="Anchor link for: intro">Intro</a></h1>
+<p>As a frequent user of <a href="https://docs.jito.wtf/">Jito</a>, anywhere I look online, there were only resources showing how to connect to Jito's block engine endpoints via <code>JSON-RPC</code>, eventhough <code>gRPC</code> connections are also supported. Below is my implementation of a <code>Rust</code> client for connecting to Jito's blockengine nodes via <code>gRPC</code>.</p>
+<p>Currently, this library only supports non-auth connections, though an auth key connection can be implemented in the future if there's enough interest.</p>
+<p><a href="https://crates.io/crates/jito-grpc-client">Crates.io</a> | <a href="https://github.com/stevenlusonggao/jito_grpc_client">Github</a></p>
+<h1 id="features"><a class="zola-anchor" href="#features" aria-label="Anchor link for: features">Features</a></h1>
+<ul>
+<li><strong>Bundle Transactions</strong>: Send jito bundles via gRPC, no auth key needed</li>
+<li><strong>Dynamic Region Selection</strong>: Option to automatically connect to the fastest available region based on latency measurements</li>
+<li><strong>Retry Logic</strong>: Automatic retry with configurable jitter</li>
+</ul>
+<hr />
+<h1 id="getting-started"><a class="zola-anchor" href="#getting-started" aria-label="Anchor link for: getting-started">Getting Started</a></h1>
+<p>Basic usage example:</p>
+<pre data-lang="rust" style="background-color:#0f1419;color:#bfbab0;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#bfbab0cc;">#</span><span>[</span><span style="color:#ffb454;">tokio</span><span>::</span><span style="color:#ffb454;">main</span><span>]
+</span><span>async </span><span style="color:#ff7733;">fn </span><span style="color:#ffb454;">main</span><span>() </span><span style="color:#bfbab0cc;">-&gt; </span><span>JitoClientResult&lt;()&gt; {
+</span><span>    </span><span style="font-style:italic;color:#5c6773;">// Connect to fastest region automatically
+</span><span>    </span><span style="color:#ff7733;">let mut</span><span> client </span><span style="color:#f29668;">= </span><span>JitoClient</span><span style="color:#f29668;">::</span><span>new_dynamic_region(</span><span style="font-style:italic;color:#39bae6;">None</span><span>)</span><span style="color:#f29668;">.</span><span>await</span><span style="color:#f29668;">?</span><span style="color:#bfbab0cc;">;
+</span><span>    
+</span><span>    </span><span style="color:#ff7733;">let</span><span> transactions</span><span style="color:#bfbab0cc;">: </span><span style="font-style:italic;color:#39bae6;">Vec</span><span>&lt;VersionedTransaction&gt; </span><span style="color:#f29668;">= </span><span style="color:#f07178;">vec!</span><span>[
+</span><span>        </span><span style="font-style:italic;color:#5c6773;">// Your transactions
+</span><span>    ]</span><span style="color:#bfbab0cc;">;
+</span><span>    
+</span><span>    </span><span style="font-style:italic;color:#5c6773;">// Send bundle
+</span><span>    </span><span style="color:#ff7733;">let</span><span> uuid </span><span style="color:#f29668;">=</span><span> client</span><span style="color:#f29668;">.</span><span style="color:#f07178;">send</span><span>(</span><span style="color:#f29668;">&amp;</span><span>transactions)</span><span style="color:#f29668;">.</span><span>await</span><span style="color:#f29668;">?</span><span style="color:#bfbab0cc;">;
+</span><span>    </span><span style="color:#f07178;">println!</span><span>(</span><span style="color:#c2d94c;">&quot;Bundle submitted with UUID: </span><span style="color:#f29718;">{}</span><span style="color:#c2d94c;">&quot;</span><span style="color:#bfbab0cc;">,</span><span> uuid)</span><span style="color:#bfbab0cc;">;
+</span><span>    
+</span><span>    </span><span style="font-style:italic;color:#39bae6;">Ok</span><span>(())
+</span><span>}
+</span></code></pre>
+<hr />
+<h1 id="client-creation"><a class="zola-anchor" href="#client-creation" aria-label="Anchor link for: client-creation">Client Creation</a></h1>
+<p><span class="highlight-code-wrapper"><strong><code>JitoClient::new_dynamic_region(timeout: Option&lt;u64&gt;) -&gt; JitoClientResult&lt;Self&gt;</code></strong></span></p>
+<p>Creates a new client instance that automatically connects to the fastest available region. This method measures latency to all available regions and selects the one with the lowest response time for optimal performance.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>timeout</code> - Connection and request timeout in seconds. Defaults to 2 seconds if not specified.</li>
+</ul>
+<p><strong>Example:</strong></p>
+<pre data-lang="rust" style="background-color:#0f1419;color:#bfbab0;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="font-style:italic;color:#5c6773;">// Use default 2-second timeout
+</span><span style="color:#ff7733;">let</span><span> client </span><span style="color:#f29668;">= </span><span>JitoClient</span><span style="color:#f29668;">::</span><span>new_dynamic_region(</span><span style="font-style:italic;color:#39bae6;">None</span><span>)</span><span style="color:#f29668;">.</span><span>await</span><span style="color:#f29668;">?</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;">// Use custom 5-second timeout
+</span><span style="color:#ff7733;">let</span><span> client </span><span style="color:#f29668;">= </span><span>JitoClient</span><span style="color:#f29668;">::</span><span>new_dynamic_region(</span><span style="font-style:italic;color:#39bae6;">Some</span><span>(</span><span style="color:#f29718;">5</span><span>))</span><span style="color:#f29668;">.</span><span>await</span><span style="color:#f29668;">?</span><span style="color:#bfbab0cc;">;
+</span></code></pre>
+<br>
+<p><span class="highlight-code-wrapper"><strong><code>JitoClient::new(endpoint: &amp;'static str, timeout: Option&lt;u64&gt;) -&gt; JitoClientResult&lt;Self&gt;</code></strong></span></p>
+<p>Creates a new client instance connected to a specific endpoint.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>endpoint</code> - The gRPC endpoint URL</li>
+<li><code>timeout</code> - Connection and request timeout in seconds. Defaults to 2 seconds if None.</li>
+</ul>
+<p><strong>Example:</strong></p>
+<pre data-lang="rust" style="background-color:#0f1419;color:#bfbab0;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="font-style:italic;color:#5c6773;">// Connect to specific endpoint
+</span><span style="color:#ff7733;">let</span><span> client </span><span style="color:#f29668;">= </span><span>JitoClient</span><span style="color:#f29668;">::</span><span>new(</span><span style="color:#c2d94c;">&quot;https://ny.mainnet.block-engine.jito.wtf:443&quot;</span><span style="color:#bfbab0cc;">, </span><span style="font-style:italic;color:#39bae6;">None</span><span>)</span><span style="color:#f29668;">.</span><span>await</span><span style="color:#f29668;">?</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;">// Connect with custom timeout
+</span><span style="color:#ff7733;">let</span><span> client </span><span style="color:#f29668;">= </span><span>JitoClient</span><span style="color:#f29668;">::</span><span>new(</span><span style="color:#c2d94c;">&quot;http://ny.testnet.block-engine.jito.wtf:443&quot;</span><span style="color:#bfbab0cc;">, </span><span style="font-style:italic;color:#39bae6;">Some</span><span>(</span><span style="color:#f29718;">10</span><span>))</span><span style="color:#f29668;">.</span><span>await</span><span style="color:#f29668;">?</span><span style="color:#bfbab0cc;">;
+</span></code></pre>
+<hr />
+<h1 id="transaction-submission"><a class="zola-anchor" href="#transaction-submission" aria-label="Anchor link for: transaction-submission">Transaction Submission</a></h1>
+<p><span class="highlight-code-wrapper"><strong><code>send(transactions: &amp;[VersionedTransaction]) -&gt; JitoClientResult&lt;String&gt;</code></strong></span></p>
+<p>Sends a bundle of transactions to a Node via gRPC.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>transactions</code> - A vec of <a href="https://docs.rs/solana-transaction/latest/solana_transaction/versioned/struct.VersionedTransaction.html">VersionedTransaction</a> to send.</li>
+</ul>
+<p><strong>Returns:</strong></p>
+<ul>
+<li>Returns a String containing the unique bundle ID.</li>
+</ul>
+<p><strong>Example:</strong></p>
+<pre data-lang="rust" style="background-color:#0f1419;color:#bfbab0;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ff7733;">use </span><span>solana_transaction</span><span style="color:#f29668;">::</span><span>versioned</span><span style="color:#f29668;">::</span><span>VersionedTransaction</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="color:#ff7733;">let</span><span> transactions </span><span style="color:#f29668;">= </span><span style="color:#f07178;">vec!</span><span>[</span><span style="font-style:italic;color:#5c6773;">/* your VersionedTransaction */</span><span>]</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="color:#ff7733;">match</span><span> client</span><span style="color:#f29668;">.</span><span style="color:#f07178;">send</span><span>(</span><span style="color:#f29668;">&amp;</span><span>transactions)</span><span style="color:#f29668;">.</span><span>await {
+</span><span>    </span><span style="font-style:italic;color:#39bae6;">Ok</span><span>(uuid) </span><span style="color:#f29668;">=&gt; </span><span style="color:#f07178;">println!</span><span>(</span><span style="color:#c2d94c;">&quot;Bundle submitted with UUID: </span><span style="color:#f29718;">{}</span><span style="color:#c2d94c;">&quot;</span><span style="color:#bfbab0cc;">,</span><span> uuid)</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="font-style:italic;color:#39bae6;">Err</span><span>(e) </span><span style="color:#f29668;">=&gt; </span><span style="color:#f07178;">eprintln!</span><span>(</span><span style="color:#c2d94c;">&quot;Failed to send bundle: </span><span style="color:#f29718;">{}</span><span style="color:#c2d94c;">&quot;</span><span style="color:#bfbab0cc;">,</span><span> e)</span><span style="color:#bfbab0cc;">,
+</span><span>}
+</span></code></pre>
+<br>
+<p><span class="highlight-code-wrapper"><strong><code>send_with_retry(transactions: &amp;[VersionedTransaction], retry_logic: RetryLogic) -&gt; JitoClientResult&lt;String&gt;</code></strong></span></p>
+<p>Sends a bundle of transactions with automatic retry logic by using random jitter between attempts.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>transactions</code> - A vec of <a href="https://docs.rs/solana-transaction/latest/solana_transaction/versioned/struct.VersionedTransaction.html">VersionedTransaction</a> to send.</li>
+<li><code>retry_logic</code> - Configuration for retry behavior including max attempts and wait times, see below for info on the retry config.</li>
+</ul>
+<p><strong>Example:</strong></p>
+<pre data-lang="rust" style="background-color:#0f1419;color:#bfbab0;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ff7733;">use </span><span>solana_transaction</span><span style="color:#f29668;">::</span><span>versioned</span><span style="color:#f29668;">::</span><span>VersionedTransaction</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;">// 3 retries with default 5-25ms jitter
+</span><span style="color:#ff7733;">let</span><span> retry_config </span><span style="color:#f29668;">= </span><span>RetryLogic</span><span style="color:#f29668;">::</span><span>new(</span><span style="color:#f29718;">3</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span style="color:#ff7733;">let</span><span> transactions </span><span style="color:#f29668;">= </span><span style="color:#f07178;">vec!</span><span>[</span><span style="font-style:italic;color:#5c6773;">/* your VersionedTransaction */</span><span>]</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="color:#ff7733;">match</span><span> client</span><span style="color:#f29668;">.</span><span style="color:#f07178;">send_with_retry</span><span>(</span><span style="color:#f29668;">&amp;</span><span>transactions</span><span style="color:#bfbab0cc;">,</span><span> retry_config)</span><span style="color:#f29668;">.</span><span>await {
+</span><span>    </span><span style="font-style:italic;color:#39bae6;">Ok</span><span>(uuid) </span><span style="color:#f29668;">=&gt; </span><span style="color:#f07178;">println!</span><span>(</span><span style="color:#c2d94c;">&quot;Bundle submitted with UUID: </span><span style="color:#f29718;">{}</span><span style="color:#c2d94c;">&quot;</span><span style="color:#bfbab0cc;">,</span><span> uuid)</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="font-style:italic;color:#39bae6;">Err</span><span>(e) </span><span style="color:#f29668;">=&gt; </span><span style="color:#f07178;">eprintln!</span><span>(</span><span style="color:#c2d94c;">&quot;Bundle failed: </span><span style="color:#f29718;">{}</span><span style="color:#c2d94c;">&quot;</span><span style="color:#bfbab0cc;">,</span><span> e)</span><span style="color:#bfbab0cc;">,
+</span><span>}
+</span></code></pre>
+<hr />
+<h1 id="retry-configuration"><a class="zola-anchor" href="#retry-configuration" aria-label="Anchor link for: retry-configuration">Retry Configuration</a></h1>
+<p><span class="highlight-code-wrapper"><strong><code>RetryLogic::new(max_retries: u8) -&gt; Self</code></strong></span></p>
+<p>Creates retry configuration with default wait bounds (5-25ms).</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>max_retries</code> - Maximum number of retry attempts</li>
+</ul>
+<p><strong>Example:</strong></p>
+<pre data-lang="rust" style="background-color:#0f1419;color:#bfbab0;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="font-style:italic;color:#5c6773;">// With default jitter (5-25ms)
+</span><span style="color:#ff7733;">let</span><span> retry_config </span><span style="color:#f29668;">= </span><span>RetryLogic</span><span style="color:#f29668;">::</span><span>new(</span><span style="color:#f29718;">5</span><span>)</span><span style="color:#bfbab0cc;">;
+</span></code></pre>
+<br>
+<p><span class="highlight-code-wrapper"><strong><code>RetryLogic::new_with_wait_bounds(max_retries: u8, min_wait: u64, max_wait: u64) -&gt; JitoClientResult&lt;Self&gt;</code></strong></span></p>
+<p>Creates retry configuration with custom wait time bounds.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>max_retries</code> - Maximum number of retry attempts</li>
+<li><code>min_wait</code> - Minimum wait time in milliseconds</li>
+<li><code>max_wait</code> - Maximum wait time in milliseconds</li>
+</ul>
+<p><strong>Example:</strong></p>
+<pre data-lang="rust" style="background-color:#0f1419;color:#bfbab0;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="font-style:italic;color:#5c6773;">// 5 retries with custom jitter (10-100ms)
+</span><span style="color:#ff7733;">let</span><span> retry_config </span><span style="color:#f29668;">= </span><span>RetryLogic</span><span style="color:#f29668;">::</span><span>new_with_wait_bounds(</span><span style="color:#f29718;">5</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">10</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">100</span><span>)</span><span style="color:#f29668;">?</span><span style="color:#bfbab0cc;">;
+</span></code></pre>
+<hr />
+<h1 id="utility-methods"><a class="zola-anchor" href="#utility-methods" aria-label="Anchor link for: utility-methods">Utility Methods</a></h1>
+<p><span class="highlight-code-wrapper"><strong><code>JitoClient::get_endpoint() -&gt; &amp;'static str</code></strong></span></p>
+<p>Returns the endpoint URL that this client is currently connected to.</p>
+<p><strong>Example:</strong></p>
+<pre data-lang="rust" style="background-color:#0f1419;color:#bfbab0;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ff7733;">let</span><span> client </span><span style="color:#f29668;">= </span><span>JitoClient</span><span style="color:#f29668;">::</span><span>new_dynamic_region(</span><span style="font-style:italic;color:#39bae6;">None</span><span>)</span><span style="color:#f29668;">.</span><span>await</span><span style="color:#f29668;">?</span><span style="color:#bfbab0cc;">;
+</span><span style="color:#f07178;">println!</span><span>(</span><span style="color:#c2d94c;">&quot;Connected to: </span><span style="color:#f29718;">{}</span><span style="color:#c2d94c;">&quot;</span><span style="color:#bfbab0cc;">,</span><span> client</span><span style="color:#f29668;">.</span><span style="color:#f07178;">get_endpoint</span><span>())</span><span style="color:#bfbab0cc;">;
+</span></code></pre>
+<br>
+<p><span class="highlight-code-wrapper"><strong><code>JitoClient::all_regions() -&gt; &amp;'static [NodeRegion]</code></strong></span></p>
+<p>Returns all available node regions that can be used for connections.</p>
+<p><strong>Example:</strong></p>
+<pre data-lang="rust" style="background-color:#0f1419;color:#bfbab0;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="font-style:italic;color:#5c6773;">// List all available regions
+</span><span style="color:#ff7733;">for</span><span> region </span><span style="color:#f29668;">in </span><span>JitoClient</span><span style="color:#f29668;">::</span><span>all_regions() {
+</span><span>    </span><span style="color:#f07178;">println!</span><span>(</span><span style="color:#c2d94c;">&quot;Region: </span><span style="color:#f29718;">{}</span><span style="color:#c2d94c;"> - Endpoint: </span><span style="color:#f29718;">{}</span><span style="color:#c2d94c;">&quot;</span><span style="color:#bfbab0cc;">,</span><span> region</span><span style="color:#bfbab0cc;">,</span><span> region</span><span style="color:#f29668;">.</span><span style="color:#f07178;">endpoint</span><span>())</span><span style="color:#bfbab0cc;">;
+</span><span>}
+</span></code></pre>
+<hr />
+<h1 id="error-handling"><a class="zola-anchor" href="#error-handling" aria-label="Anchor link for: error-handling">Error Handling</a></h1>
+<p>The client uses <code>JitoClientResult&lt;T&gt;</code> which wraps <code>JitoClientError</code>. Common error types include:</p>
+<ul>
+<li>Network/gRPC connection errors</li>
+<li>Max retries reached</li>
+<li>gRPC server response errors</li>
+</ul>
+
+                </section>
+            </article>
+        </main>
+    </div>
+
+
+
+            
+                
+            
+
+            
+        </div>
+
+        <div class="right-content">
+            
+    
+    
+        <div class="toc">
+    <div class="heading">Table of Contents</div>
+    <ul class="toc-list">
+        
+            <li class="parent">
+                
+                <a href="https://stevenlusonggao.github.io/blog/posts/jito-grpc-client/#intro">Intro</a>
+
+                
+            </li>
+        
+            <li class="parent">
+                
+                <a href="https://stevenlusonggao.github.io/blog/posts/jito-grpc-client/#features">Features</a>
+
+                
+            </li>
+        
+            <li class="parent">
+                
+                <a href="https://stevenlusonggao.github.io/blog/posts/jito-grpc-client/#getting-started">Getting Started</a>
+
+                
+            </li>
+        
+            <li class="parent">
+                
+                <a href="https://stevenlusonggao.github.io/blog/posts/jito-grpc-client/#client-creation">Client Creation</a>
+
+                
+            </li>
+        
+            <li class="parent">
+                
+                <a href="https://stevenlusonggao.github.io/blog/posts/jito-grpc-client/#transaction-submission">Transaction Submission</a>
+
+                
+            </li>
+        
+            <li class="parent">
+                
+                <a href="https://stevenlusonggao.github.io/blog/posts/jito-grpc-client/#retry-configuration">Retry Configuration</a>
+
+                
+            </li>
+        
+            <li class="parent">
+                
+                <a href="https://stevenlusonggao.github.io/blog/posts/jito-grpc-client/#utility-methods">Utility Methods</a>
+
+                
+            </li>
+        
+            <li class="parent">
+                
+                <a href="https://stevenlusonggao.github.io/blog/posts/jito-grpc-client/#error-handling">Error Handling</a>
+
+                
+            </li>
+        
+    </ul>
+</div>
+
+    
+
+        </div>
+    </body>
+
+</html>
