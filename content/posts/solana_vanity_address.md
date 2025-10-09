@@ -5,16 +5,13 @@ date = 2025-10-06
 tags =  ["project", "solana", "rust"]
 [extra]
 +++
-
-# Solana Vanity Address Generator CLI
-
 A high-performance, multi-threaded Solana vanity address generator CLI written in Rust. Generate custom Solana wallet addresses with specific prefixes or suffixes using flexible matching options.
 
 A vanity public key is a Solana address that begins or ends with specific characters you choose. The more characters you want at the beginning of your vanity address, the longer it will take to generate one.
 
 [Github](https://github.com/stevenlusonggao/solana_vanity_address)
 
-## Features
+# Features
 
 - ⚡ Optimized Multi-threaded Performance - Built with [Rayon](https://docs.rs/rayon/latest/rayon/) for efficient parallel processing. Utilize multiple CPU cores for maximum performance.
 - 🎯 Flexible Matching - Match patterns with lookalike characters (e.g., s matches S, 5).
@@ -22,14 +19,14 @@ A vanity public key is a Solana address that begins or ends with specific charac
 - 🔍 Multiple Match Types - Search for prefix, suffix, or either.
 - ✅ Base58 Validation - Automatically validates patterns against Solana's [Base58](https://digitalbazaar.github.io/base58-spec/) character set.
 
-## Installation
+# Installation
 
-### Prerequisites:
+**Prerequisites:**
 
 - [Install Rust](https://rust-lang.org/tools/install/)
 - Cargo (comes with Rust)
 
-### Build from Source
+**Build from Source:**
 
 ```bash
 # Clone the repository
@@ -40,16 +37,16 @@ cd solana_vanity_address
 cargo build --release
 ```
 
-## Usage
+# Usage
 
-### Basic Usage
+## Basic Usage
 
 ```bash
 # Generate address with "Punk" prefix using 8 threads
 cargo run --release -- -f "Punk" -t 8
 ```
 
-### Command-Line Options
+## Command-Line Options
 
 ```
 Options:
@@ -72,37 +69,37 @@ Options:
         Print help
 ```
 
-### Examples
+## Examples
 
-#### Generate a Prefix Vanity Address
+### Generate a Prefix Vanity Address
 
 ```bash
 # Find address starting with "Sol"
 cargo run --release -- -f "Sol" -t 6
 ```
 
-#### Generate a Suffix Vanity Address
+### Generate a Suffix Vanity Address
 
 ```bash
 # Find address ending with "Punk"
 cargo run --release -- -f  "Punk" -m suffix -t 8
 ```
 
-#### Match Either Prefix or Suffix
+### Match Either Prefix or Suffix
 
 ```bash
 # Find "Cool" at start OR end
 cargo run --release -- -f "Cool" -m either -t 8
 ```
 
-#### Case-Sensitive Matching
+### Case-Sensitive Matching
 
 ```bash
 # Only match exact case "DEGEN"
 cargo run --release -- -f "DEGEN" --case-sensitivity true --flexible-chars false -t 8
 ```
 
-#### Disable Flexible Character Matching
+### Disable Flexible Character Matching
 
 ```bash
 # Match only exact characters
@@ -112,14 +109,14 @@ cargo run --release -- -f "DEGEN" --case-sensitivity true --flexible-chars false
 # Won't match: 7est (7 looks like T in flexible mode)
 ```
 
-## Performance Tips
+# Performance Tips
 
-2. **Optimize Thread Count** - Use a higher number of threads to improve performance, though the program prevents making more threads than available CPU threads.
-3. **Shorter Patterns** - Each additional character increases search time exponentially
-4. **Use Flexible Mode** - Increases match probability
-5. **Choose Prefix Over Suffix** - Slightly faster than suffix
+1. **Optimize Thread Count** - Use a higher number of threads to improve performance, though the program prevents making more threads than available CPU threads.
+2. **Shorter Patterns** - Each additional character increases search time exponentially
+3. **Use Flexible Mode** - Increases match probability
+4. **Choose Prefix Over Suffix** - Slightly faster than suffix
 
-## Base58 Character Set
+# Base58 Character Set
 
 Solana addresses use Base58 encoding, which excludes visually ambiguous characters:
 
@@ -127,6 +124,7 @@ Solana addresses use Base58 encoding, which excludes visually ambiguous characte
 
 **Excluded characters:** `0` (zero), `O` (capital o), `I` (capital i), `l` (lowercase L)
 
+# Other Considerations
 ## Security Notes
 
 ⚠️ **Important Security Considerations:**

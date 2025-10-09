@@ -1,12 +1,12 @@
 +++
-title = "Base64 vs Base64+Zstd: A Deep Dive into Solana's getAccountInfo Call Reponse Encoding"
+title = "Base64 vs Base64+Zstd: Comparing Solana's getAccountInfo Call Reponse Encoding"
 date = 2025-10-09
 [taxonomies]
 tags =  ["solana", "rust"]
 [extra]
 +++
 
-The following is a deep dive on the results of an experiment comparing the latencies of using `"encoding" = "base64` vs `"encoding" = "base64+zstd"` for Solana's [getAccountInfo](https://solana.com/docs/rpc/http/getaccountinfo) RPC call.
+The following writeup describes the results of my experiment comparing the measured latencies of using `"encoding" = "base64` vs `"encoding" = "base64+zstd"` for Solana's [getAccountInfo](https://solana.com/docs/rpc/http/getaccountinfo) RPC call.
 
 # Key Takeaways
 
@@ -99,7 +99,7 @@ When you request account data via `getAccountInfo` from a Solana RPC node, the r
 
 The process of encoding data using base64 increases the data size by ~33%, but it is a necessary tradeoff for reliable data transmission over JSON-RPC.
 
-## What is `base64+zstd`
+## What is `base64+zstd`?
 
 [Zstandard (Zstd)](https://facebook.github.io/zstd/) is a modern compression algorithm developed by Facebook that offers fast compression and decompression speeds and good compression ratios.
 

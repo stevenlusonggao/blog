@@ -21,7 +21,6 @@ index_format = "elasticlunr_json"
 [markdown]
 # Whether to do syntax highlighting
 # Theme can be customised by setting the `highlight_theme` variable to a theme supported by Zola
-toc = false
 use_cdn = false
 highlight_code = true
 highlight_theme = "ayu-dark"
@@ -34,7 +33,7 @@ fancy_code = true
 dynamic_note = true           # a note that can be toggled
 mathjax = true
 mathjax_dollar_inline_enable = true
-toc = false
+toc = true
 
 socials = [
   { name = "github", url = "https://github.com/stevenlusonggao",  icon = "github" },
@@ -43,8 +42,8 @@ socials = [
 ]
 
 menu = [
-  #{ name = "/about", url = "/about", weight = 1 },
-  { name = "/posts", url = "/posts", weight = 2 },
+  { name = "/posts", url = "/posts", weight = 1 },
+  #{ name = "/about", url = "/about", weight = 2 },
   #{ name = "projects", url = "/projects", weight = 3 },
   { name = "/tags", url = "/tags", weight = 4 },
 ]

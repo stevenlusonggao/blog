@@ -48,7 +48,7 @@ async fn main() -> JitoClientResult<()> {
 
 # Client Creation
 
-## `JitoClient::new_dynamic_region(timeout: Option<u64>) -> JitoClientResult<Self>`
+<span class="highlight-code-wrapper">**`JitoClient::new_dynamic_region(timeout: Option<u64>) -> JitoClientResult<Self>`**</span>
 
 Creates a new client instance that automatically connects to the fastest available region. This method measures latency to all available regions and selects the one with the lowest response time for optimal performance.
 
@@ -66,7 +66,9 @@ let client = JitoClient::new_dynamic_region(None).await?;
 let client = JitoClient::new_dynamic_region(Some(5)).await?;
 ```
 
-## `JitoClient::new(endpoint: &'static str, timeout: Option<u64>) -> JitoClientResult<Self>`
+<br>
+
+<span class="highlight-code-wrapper">**`JitoClient::new(endpoint: &'static str, timeout: Option<u64>) -> JitoClientResult<Self>`**</span>
 
 Creates a new client instance connected to a specific endpoint.
 
@@ -89,7 +91,7 @@ let client = JitoClient::new("http://ny.testnet.block-engine.jito.wtf:443", Some
 
 # Transaction Submission
 
-## `send(transactions: &[VersionedTransaction]) -> JitoClientResult<String>`
+<span class="highlight-code-wrapper">**`send(transactions: &[VersionedTransaction]) -> JitoClientResult<String>`**</span>
 
 Sends a bundle of transactions to a Node via gRPC.
 
@@ -114,7 +116,9 @@ match client.send(&transactions).await {
 }
 ```
 
-## `send_with_retry(transactions: &[VersionedTransaction], retry_logic: RetryLogic) -> JitoClientResult<String>` 
+<br>
+
+<span class="highlight-code-wrapper">**`send_with_retry(transactions: &[VersionedTransaction], retry_logic: RetryLogic) -> JitoClientResult<String>`**</span>
 
 Sends a bundle of transactions with automatic retry logic by using random jitter between attempts.
 
@@ -142,7 +146,7 @@ match client.send_with_retry(&transactions, retry_config).await {
 
 # Retry Configuration
 
-## `RetryLogic::new(max_retries: u8) -> Self`
+<span class="highlight-code-wrapper">**`RetryLogic::new(max_retries: u8) -> Self`**</span>
 
 Creates retry configuration with default wait bounds (5-25ms).
 
@@ -157,7 +161,9 @@ Creates retry configuration with default wait bounds (5-25ms).
 let retry_config = RetryLogic::new(5);
 ```
 
-## `RetryLogic::new_with_wait_bounds(max_retries: u8, min_wait: u64, max_wait: u64) -> JitoClientResult<Self>`
+<br>
+
+<span class="highlight-code-wrapper">**`RetryLogic::new_with_wait_bounds(max_retries: u8, min_wait: u64, max_wait: u64) -> JitoClientResult<Self>`**</span>
 
 Creates retry configuration with custom wait time bounds.
 
@@ -178,7 +184,7 @@ let retry_config = RetryLogic::new_with_wait_bounds(5, 10, 100)?;
 
 # Utility Methods
 
-## `JitoClient::get_endpoint() -> &'static str`
+<span class="highlight-code-wrapper">**`JitoClient::get_endpoint() -> &'static str`**</span>
 
 Returns the endpoint URL that this client is currently connected to.
 
@@ -189,7 +195,9 @@ let client = JitoClient::new_dynamic_region(None).await?;
 println!("Connected to: {}", client.get_endpoint());
 ```
 
-## `JitoClient::all_regions() -> &'static [NodeRegion]`
+<br>
+
+<span class="highlight-code-wrapper">**`JitoClient::all_regions() -> &'static [NodeRegion]`**</span>
 
 Returns all available node regions that can be used for connections.
 
