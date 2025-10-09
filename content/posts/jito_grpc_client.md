@@ -2,7 +2,7 @@
 title = "Jito gRPC Client"
 date = 2025-10-03
 [taxonomies]
-tags =  ["project", "solana", "jito"]
+tags =  ["project", "solana", "jito", "rust"]
 [extra]
 +++
 
