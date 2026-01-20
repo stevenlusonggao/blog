@@ -22,7 +22,7 @@ index_format = "elasticlunr_json"
 # Whether to do syntax highlighting
 # Theme can be customised by setting the `highlight_theme` variable to a theme supported by Zola
 use_cdn = false
-#highlight_code = true
+highlight_code = true
 highlight_theme = "ayu-dark"
 
 [extra]
