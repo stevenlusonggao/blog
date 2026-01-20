@@ -11,7 +11,9 @@ After obtaining degrees in both Computer Science and Business Administration, I 
 
 Overtime, I got increasingly more interested in the start-up world. This led me to join [YipitData](https://www.yipitdata.com/), an emerging alternative data research provider to hedge funds and investment firms. During my tenure, I used `Python` and `SQL` and distilled complex transaction and web-scraped data into actionable insights for some of the sharpest investors in the world. Some of my research was also featured on the [WSJ](https://youtu.be/5YO0oLuVU7w?si=V2ulGcd1dI6hnhCb&t=20). 
 
-I'm currently working on building [BlueBird Genesis](https://bluebirdgenesis.com/), an algorithmic trading firm focused on crypto-assets. Delving deep into the realms of `Rust` and [Solana](https://solana.com/), I'm having a blast writing performant code needed to sustain latency-sensitive trading systems. 
+I'm currently working on building [BlueBird Genesis](https://bluebirdgenesis.com/), an algorithmic trading firm focused on crypto-assets. 
+
+I'm also working as a project manager at a cutting-edge AI data company, where I manage projects that collect training data used by frontier AI labs. 
 
 We are currently living through the most significant transformation of the capital markets in generations, driven by the advancement of blockchain and AI technologies. I'm committed to making a meaningful impact during this exciting time in history. 
 
