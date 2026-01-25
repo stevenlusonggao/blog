@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en" class="dark light">
+
+    <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="base" content="https:&#x2F;&#x2F;stevenlusonggao.github.io&#x2F;blog">
+
+    
+
+    
+    
+    
+        <title>
+            
+                About Me
+            
+        </title>
+
+        
+            <meta property="og:title"
+                  content="About Me" />
+        
+    
+
+    
+        
+            <meta property="og:description" content="My Blog" />
+        
+    
+
+    
+        
+            <meta name="description" content="My Blog" />
+        
+    
+
+    
+    
+        <link rel="icon"
+              type="image/png"
+              href="https://stevenlusonggao.github.io/blog/favicon.png" />
+    
+
+    
+    
+        <link href=https://stevenlusonggao.github.io/blog/fonts.css rel="stylesheet" />
+    
+
+    
+    
+
+    
+    
+
+    
+    <script defer src=https://stevenlusonggao.github.io/blog/js/codeblock.js></script>
+
+    
+    <script defer src=https://stevenlusonggao.github.io/blog/js/toc.js></script>
+
+    
+    
+        <script src=https://stevenlusonggao.github.io/blog/js/note.js></script>
+    
+
+    
+        
+            <script>
+            MathJax = {
+              tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+              }
+            };
+            </script>
+        
+        <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+        </script>
+    
+
+    
+    
+
+
+    
+    
+        <link rel="stylesheet"
+              type="text/css"
+              href="https://stevenlusonggao.github.io/blog/theme/light.css" />
+        <link id="darkModeStyle"
+              rel="stylesheet"
+              type="text/css"
+              href="https://stevenlusonggao.github.io/blog/theme/dark.css" />
+    
+
+    <!-- Set the correct theme in the script -->
+
+    
+        <script src=https://stevenlusonggao.github.io/blog/js/themetoggle.js></script>
+
+        
+            <script>setTheme(getSavedTheme());</script>
+        
+    
+
+
+    <link rel="stylesheet"
+          type="text/css"
+          media="screen"
+          href="https://stevenlusonggao.github.io/blog/main.css" />
+
+    
+
+    
+        <script defer
+                src="https://stevenlusonggao.github.io/blog/js/searchElasticlunr.min.js?h=3626c0ef99daa745b31e"></script></head>
+
+
+    <body>
+        <div class="left-content">
+            
+            
+        </div>
+
+        <div class="content">
+            <nav>
+    <div class="left-nav">
+        
+            <a href=https:&#x2F;&#x2F;stevenlusonggao.github.io&#x2F;blog>Steven Lu Song Gao</a>
+        
+
+
+        <div class="socials">
+            
+                <a rel="me" href="https:&#x2F;&#x2F;github.com&#x2F;stevenlusonggao" class="social">
+                    <img alt="github"
+                         src="https://stevenlusonggao.github.io/blog/icons/social/github.svg">
+                </a>
+            
+                <a rel="me" href="https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;stevenlusonggao&#x2F;" class="social">
+                    <img alt="linkedin"
+                         src="https://stevenlusonggao.github.io/blog/icons/social/linkedin.svg">
+                </a>
+            
+                <a rel="me" href="mailto:steven.lusong@gmail.com" class="social">
+                    <img alt="email"
+                         src="https://stevenlusonggao.github.io/blog/icons/social/email.svg">
+                </a>
+            
+        </div>
+    </div>
+
+    <div class="right-nav">
+        
+            <a href=https://stevenlusonggao.github.io/blog/posts style="margin-right: 0.5em">&#x2F;posts</a>
+        
+            <a href=https://stevenlusonggao.github.io/blog/tags style="margin-right: 0.5em">&#x2F;tags</a>
+        
+
+        
+            <button id="search-button"
+                    class="search-button"
+                    title="$SHORTCUT to open search">
+                <img src="https://stevenlusonggao.github.io/blog/icons/search.svg"
+                     alt="Search"
+                     class="search-icon">
+            </button>
+
+            <div id="searchModal"
+                 class="search-modal js"
+                 role="dialog"
+                 aria-labelledby="modalTitle">
+                <div id="modal-content">
+                    <h1 id="modalTitle" class="page-header">Search</h1>
+                    <div id="searchBar">
+                        <input id="searchInput"
+                               role="combobox"
+                               autocomplete="off"
+                               spellcheck="false"
+                               aria-expanded="false"
+                               aria-controls="results-container"
+                               placeholder="Search..." />
+                        <button id="clear-search" class="clear-button" title="Clear search">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
+                                <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="results-container">
+                        <div id="results-info">
+                            <span id="zero_results" style="display: none;">No results</span>
+                            <span id="one_result" style="display: none;">1 result</span>
+                            <span id="many_results" style="display: none;">$NUMBER results</span>
+                        </div>
+                        <div id="results" role="listbox"></div>
+                    </div>
+                </div>
+            </div>
+        
+
+        
+            <a id="dark-mode-toggle"
+               onclick="toggleTheme(); event.preventDefault();"
+               href="#">
+                <img src="https://stevenlusonggao.github.io/blog/icons/sun.svg"
+                     id="sun-icon"
+                     style="filter: invert(1)"
+                     alt="Light" />
+                <img src=https://stevenlusonggao.github.io/blog/icons/moon.svg id="moon-icon" alt="Dark" />
+            </a>
+
+            <!-- Initialize the theme toggle icons -->
+            <script>updateItemToggleTheme()</script>
+        
+    </div>
+</nav>
+
+
+            
+            
+    
+    <div class="visible-element-observer-root" data-selector="main article p">
+        <main>
+            <article>
+                <div class="title">
+                    
+                    
+    <div class="page-header">About Me</div>
+
+
+                    <div class="meta">
+                        
+
+
+                        
+
+                        
+
+                        
+
+                        
+                        
+
+                        
+                        
+
+                        
+                        
+
+                        
+
+                    </div>
+                </div>
+
+                
+
+                <section class="body">
+                    <p>I'm a software developer and data analyst residing at the intersection of capital markets and technology. I'm interested in opportunities that can leverage my experience in both investment/data research and software development.</p>
+<p>After obtaining degrees in both Computer Science and Business Administration, I worked at <a href="https://www.drw.com/">DRW</a>, where I helped develop and refine event-driven equities trading strategies. I sharpened my knack for identifying material stock price catalysts through developing systematic strategies for monitoring news events.</p>
+<p>Overtime, I got increasingly more interested in the start-up world. This led me to join <a href="https://www.yipitdata.com/">YipitData</a>, an emerging alternative data research provider to hedge funds and investment firms. During my tenure, I used <code>Python</code> and <code>SQL</code> and distilled complex transaction and web-scraped data into actionable insights for some of the sharpest investors in the world. Some of my research was also featured on the <a href="https://youtu.be/5YO0oLuVU7w?si=V2ulGcd1dI6hnhCb&amp;t=20">WSJ</a>.</p>
+<p>I'm currently working on building <a href="https://bluebirdgenesis.com/">BlueBird Genesis</a>, an algorithmic trading firm focused on crypto-assets.</p>
+<p>I'm also working as a project manager at a cutting-edge AI data company, where I manage projects that collect training data used by frontier AI labs.</p>
+<p>We are currently living through the most significant transformation of the capital markets in generations, driven by the advancement of blockchain and AI technologies. I'm committed to making a meaningful impact during this exciting time in history.</p>
+<hr />
+<p><strong>More about me:</strong> <br><br>
+When I have free time, I enjoy getting lost in the following activities:</p>
+<ul>
+<li>Golfing</li>
+<li>Running</li>
+<li>Weight lifting</li>
+<li>Reading</li>
+<li>Gaming</li>
+<li>Collecting trading cards</li>
+</ul>
+
+                </section>
+            </article>
+        </main>
+    </div>
+
+
+
+            
+                
+            
+
+            
+        </div>
+
+        <div class="right-content">
+            
+    
+    
+
+        </div>
+    </body>
+
+</html>

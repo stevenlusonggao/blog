@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en" class="dark light">
+
+    <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="base" content="https:&#x2F;&#x2F;stevenlusonggao.github.io&#x2F;blog">
+
+    
+
+    
+    
+    
+        <title>
+            
+                Solana Vanity Address Generator CLI
+            
+        </title>
+
+        
+            <meta property="og:title"
+                  content="Solana Vanity Address Generator CLI" />
+        
+    
+
+    
+        
+            <meta property="og:description" content="My Blog" />
+        
+    
+
+    
+        
+            <meta name="description" content="My Blog" />
+        
+    
+
+    
+    
+        <link rel="icon"
+              type="image/png"
+              href="https://stevenlusonggao.github.io/blog/favicon.png" />
+    
+
+    
+    
+        <link href=https://stevenlusonggao.github.io/blog/fonts.css rel="stylesheet" />
+    
+
+    
+    
+
+    
+    
+
+    
+    <script defer src=https://stevenlusonggao.github.io/blog/js/codeblock.js></script>
+
+    
+    <script defer src=https://stevenlusonggao.github.io/blog/js/toc.js></script>
+
+    
+    
+        <script src=https://stevenlusonggao.github.io/blog/js/note.js></script>
+    
+
+    
+        
+            <script>
+            MathJax = {
+              tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+              }
+            };
+            </script>
+        
+        <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+        </script>
+    
+
+    
+    
+
+
+    
+    
+        <link rel="stylesheet"
+              type="text/css"
+              href="https://stevenlusonggao.github.io/blog/theme/light.css" />
+        <link id="darkModeStyle"
+              rel="stylesheet"
+              type="text/css"
+              href="https://stevenlusonggao.github.io/blog/theme/dark.css" />
+    
+
+    <!-- Set the correct theme in the script -->
+
+    
+        <script src=https://stevenlusonggao.github.io/blog/js/themetoggle.js></script>
+
+        
+            <script>setTheme(getSavedTheme());</script>
+        
+    
+
+
+    <link rel="stylesheet"
+          type="text/css"
+          media="screen"
+          href="https://stevenlusonggao.github.io/blog/main.css" />
+
+    
+
+    
+        <script defer
+                src="https://stevenlusonggao.github.io/blog/js/searchElasticlunr.min.js?h=3626c0ef99daa745b31e"></script></head>
+
+
+    <body>
+        <div class="left-content">
+            
+            
+        </div>
+
+        <div class="content">
+            <nav>
+    <div class="left-nav">
+        
+            <a href=https:&#x2F;&#x2F;stevenlusonggao.github.io&#x2F;blog>Steven Lu Song Gao</a>
+        
+
+
+        <div class="socials">
+            
+                <a rel="me" href="https:&#x2F;&#x2F;github.com&#x2F;stevenlusonggao" class="social">
+                    <img alt="github"
+                         src="https://stevenlusonggao.github.io/blog/icons/social/github.svg">
+                </a>
+            
+                <a rel="me" href="https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;stevenlusonggao&#x2F;" class="social">
+                    <img alt="linkedin"
+                         src="https://stevenlusonggao.github.io/blog/icons/social/linkedin.svg">
+                </a>
+            
+                <a rel="me" href="mailto:steven.lusong@gmail.com" class="social">
+                    <img alt="email"
+                         src="https://stevenlusonggao.github.io/blog/icons/social/email.svg">
+                </a>
+            
+        </div>
+    </div>
+
+    <div class="right-nav">
+        
+            <a href=https://stevenlusonggao.github.io/blog/posts style="margin-right: 0.5em">&#x2F;posts</a>
+        
+            <a href=https://stevenlusonggao.github.io/blog/tags style="margin-right: 0.5em">&#x2F;tags</a>
+        
+
+        
+            <button id="search-button"
+                    class="search-button"
+                    title="$SHORTCUT to open search">
+                <img src="https://stevenlusonggao.github.io/blog/icons/search.svg"
+                     alt="Search"
+                     class="search-icon">
+            </button>
+
+            <div id="searchModal"
+                 class="search-modal js"
+                 role="dialog"
+                 aria-labelledby="modalTitle">
+                <div id="modal-content">
+                    <h1 id="modalTitle" class="page-header">Search</h1>
+                    <div id="searchBar">
+                        <input id="searchInput"
+                               role="combobox"
+                               autocomplete="off"
+                               spellcheck="false"
+                               aria-expanded="false"
+                               aria-controls="results-container"
+                               placeholder="Search..." />
+                        <button id="clear-search" class="clear-button" title="Clear search">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
+                                <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="results-container">
+                        <div id="results-info">
+                            <span id="zero_results" style="display: none;">No results</span>
+                            <span id="one_result" style="display: none;">1 result</span>
+                            <span id="many_results" style="display: none;">$NUMBER results</span>
+                        </div>
+                        <div id="results" role="listbox"></div>
+                    </div>
+                </div>
+            </div>
+        
+
+        
+            <a id="dark-mode-toggle"
+               onclick="toggleTheme(); event.preventDefault();"
+               href="#">
+                <img src="https://stevenlusonggao.github.io/blog/icons/sun.svg"
+                     id="sun-icon"
+                     style="filter: invert(1)"
+                     alt="Light" />
+                <img src=https://stevenlusonggao.github.io/blog/icons/moon.svg id="moon-icon" alt="Dark" />
+            </a>
+
+            <!-- Initialize the theme toggle icons -->
+            <script>updateItemToggleTheme()</script>
+        
+    </div>
+</nav>
+
+
+            
+            
+    
+    <div class="visible-element-observer-root" data-selector="main article p">
+        <main>
+            <article>
+                <div class="title">
+                    
+                    
+    <div class="page-header">Solana Vanity Address Generator CLI</div>
+
+
+                    <div class="meta">
+                        
+                            Posted on <time>2025-10-06</time>
+                        
+
+
+                        
+
+                        
+
+                        
+
+                        
+                        
+
+                        
+                        
+
+                        
+                        
+                            <span class="tags-label">::</span>
+                            <span class="tags">
+                                    <a href="https://stevenlusonggao.github.io/blog/tags/project/"
+                                       class="post-tag">project</a>
+                                
+                                    <a href="https://stevenlusonggao.github.io/blog/tags/solana/"
+                                       class="post-tag">solana</a>
+                                
+                                    <a href="https://stevenlusonggao.github.io/blog/tags/rust/"
+                                       class="post-tag">rust</a>
+                                
+                            </span>
+                        
+
+                        
+
+                    </div>
+                </div>
+
+                
+
+                <section class="body">
+                    <p>A high-performance, multi-threaded Solana vanity address generator CLI written in Rust. Generate custom Solana wallet addresses with specific prefixes or suffixes using flexible matching options.</p>
+<p>A vanity public key is a Solana address that begins or ends with specific characters you choose. The more characters you want at the beginning of your vanity address, the longer it will take to generate one.</p>
+<p><a href="https://github.com/stevenlusonggao/solana_vanity_address">Github</a></p>
+<h1 id="features"><a class="zola-anchor" href="#features" aria-label="Anchor link for: features">Features</a></h1>
+<ul>
+<li>⚡ Optimized Multi-threaded Performance - Built with <a href="https://docs.rs/rayon/latest/rayon/">Rayon</a> for efficient parallel processing. Utilize multiple CPU cores for maximum performance.</li>
+<li>🎯 Flexible Matching - Match patterns with lookalike characters (e.g., s matches S, 5).</li>
+<li>🔤 Case Sensitivity - Choose between case-sensitive, case-insensitive.</li>
+<li>🔍 Multiple Match Types - Search for prefix, suffix, or either.</li>
+<li>✅ Base58 Validation - Automatically validates patterns against Solana's <a href="https://digitalbazaar.github.io/base58-spec/">Base58</a> character set.</li>
+</ul>
+<h1 id="installation"><a class="zola-anchor" href="#installation" aria-label="Anchor link for: installation">Installation</a></h1>
+<p><strong>Prerequisites:</strong></p>
+<ul>
+<li><a href="https://rust-lang.org/tools/install/">Install Rust</a></li>
+<li>Cargo (comes with Rust)</li>
+</ul>
+<p><strong>Build from Source:</strong></p>
+<pre data-lang="bash" style="background-color:#0f1419;color:#bfbab0;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># Clone the repository
+</span><span style="color:#ffb454;">git</span><span> clone https://github.com/stevenlusonggao/solana_vanity_address
+</span><span style="color:#f07178;">cd</span><span> solana_vanity_address
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># Build in release mode (optimized)
+</span><span style="color:#ffb454;">cargo</span><span> build</span><span style="color:#f29718;"> --release
+</span></code></pre>
+<h1 id="usage"><a class="zola-anchor" href="#usage" aria-label="Anchor link for: usage">Usage</a></h1>
+<h2 id="basic-usage"><a class="zola-anchor" href="#basic-usage" aria-label="Anchor link for: basic-usage">Basic Usage</a></h2>
+<pre data-lang="bash" style="background-color:#0f1419;color:#bfbab0;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># Generate address with &quot;Punk&quot; prefix using 8 threads
+</span><span style="color:#ffb454;">cargo</span><span> run</span><span style="color:#f29718;"> --release</span><span style="color:#f29668;"> --</span><span> -f </span><span style="color:#c2d94c;">&quot;Punk&quot;</span><span> -t 8
+</span></code></pre>
+<h2 id="command-line-options"><a class="zola-anchor" href="#command-line-options" aria-label="Anchor link for: command-line-options">Command-Line Options</a></h2>
+<pre style="background-color:#0f1419;color:#bfbab0;"><code><span>Options:
+</span><span>  -f, --find &lt;FIND&gt;
+</span><span>        Pattern to find 
+</span><span>
+</span><span>  -t, --threads &lt;THREADS&gt;
+</span><span>        Number of threads to use. [default: 2]     
+</span><span>
+</span><span>  -m, --match-type &lt;MATCH_TYPE&gt;
+</span><span>        Where the pattern search should take place. [default: prefix] [possible values: prefix, suffix, either]
+</span><span>
+</span><span>  -s, --case-sensitivity 
+</span><span>        Enable case sensitivity. [default: false]
+</span><span>
+</span><span>  -l, --flexible-chars
+</span><span>        Enable flexible char find. [default: true]        
+</span><span>
+</span><span>  -h, --help                     
+</span><span>        Print help
+</span></code></pre>
+<h2 id="examples"><a class="zola-anchor" href="#examples" aria-label="Anchor link for: examples">Examples</a></h2>
+<h3 id="generate-a-prefix-vanity-address"><a class="zola-anchor" href="#generate-a-prefix-vanity-address" aria-label="Anchor link for: generate-a-prefix-vanity-address">Generate a Prefix Vanity Address</a></h3>
+<pre data-lang="bash" style="background-color:#0f1419;color:#bfbab0;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># Find address starting with &quot;Sol&quot;
+</span><span style="color:#ffb454;">cargo</span><span> run</span><span style="color:#f29718;"> --release</span><span style="color:#f29668;"> --</span><span> -f </span><span style="color:#c2d94c;">&quot;Sol&quot;</span><span> -t 6
+</span></code></pre>
+<h3 id="generate-a-suffix-vanity-address"><a class="zola-anchor" href="#generate-a-suffix-vanity-address" aria-label="Anchor link for: generate-a-suffix-vanity-address">Generate a Suffix Vanity Address</a></h3>
+<pre data-lang="bash" style="background-color:#0f1419;color:#bfbab0;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># Find address ending with &quot;Punk&quot;
+</span><span style="color:#ffb454;">cargo</span><span> run</span><span style="color:#f29718;"> --release</span><span style="color:#f29668;"> --</span><span> -f  </span><span style="color:#c2d94c;">&quot;Punk&quot;</span><span> -m suffix -t 8
+</span></code></pre>
+<h3 id="match-either-prefix-or-suffix"><a class="zola-anchor" href="#match-either-prefix-or-suffix" aria-label="Anchor link for: match-either-prefix-or-suffix">Match Either Prefix or Suffix</a></h3>
+<pre data-lang="bash" style="background-color:#0f1419;color:#bfbab0;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># Find &quot;Cool&quot; at start OR end
+</span><span style="color:#ffb454;">cargo</span><span> run</span><span style="color:#f29718;"> --release</span><span style="color:#f29668;"> --</span><span> -f </span><span style="color:#c2d94c;">&quot;Cool&quot;</span><span> -m either -t 8
+</span></code></pre>
+<h3 id="case-sensitive-matching"><a class="zola-anchor" href="#case-sensitive-matching" aria-label="Anchor link for: case-sensitive-matching">Case-Sensitive Matching</a></h3>
+<pre data-lang="bash" style="background-color:#0f1419;color:#bfbab0;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># Only match exact case &quot;DEGEN&quot;
+</span><span style="color:#ffb454;">cargo</span><span> run</span><span style="color:#f29718;"> --release</span><span style="color:#f29668;"> --</span><span> -f </span><span style="color:#c2d94c;">&quot;DEGEN&quot;</span><span> --case-sensitivity true --flexible-chars false -t 8
+</span></code></pre>
+<h3 id="disable-flexible-character-matching"><a class="zola-anchor" href="#disable-flexible-character-matching" aria-label="Anchor link for: disable-flexible-character-matching">Disable Flexible Character Matching</a></h3>
+<pre data-lang="bash" style="background-color:#0f1419;color:#bfbab0;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># Match only exact characters
+</span><span> </span><span style="color:#ffb454;">cargo</span><span> run</span><span style="color:#f29718;"> --release</span><span style="color:#f29668;"> --</span><span> -f </span><span style="color:#c2d94c;">&quot;Test&quot;</span><span> --flexible-chars false --case-sensitivity false -t 8
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># Will match: Test, test, TEST
+</span><span style="font-style:italic;color:#5c6773;"># Won&#39;t match: 7est (7 looks like T in flexible mode)
+</span></code></pre>
+<h1 id="performance-tips"><a class="zola-anchor" href="#performance-tips" aria-label="Anchor link for: performance-tips">Performance Tips</a></h1>
+<ol>
+<li><strong>Optimize Thread Count</strong> - Use a higher number of threads to improve performance, though the program prevents making more threads than available CPU threads.</li>
+<li><strong>Shorter Patterns</strong> - Each additional character increases search time exponentially</li>
+<li><strong>Use Flexible Mode</strong> - Increases match probability</li>
+<li><strong>Choose Prefix Over Suffix</strong> - Slightly faster than suffix</li>
+</ol>
+<h1 id="base58-character-set"><a class="zola-anchor" href="#base58-character-set" aria-label="Anchor link for: base58-character-set">Base58 Character Set</a></h1>
+<p>Solana addresses use Base58 encoding, which excludes visually ambiguous characters:</p>
+<p><strong>Valid characters:</strong> <code>123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz</code></p>
+<p><strong>Excluded characters:</strong> <code>0</code> (zero), <code>O</code> (capital o), <code>I</code> (capital i), <code>l</code> (lowercase L)</p>
+<h1 id="other-considerations"><a class="zola-anchor" href="#other-considerations" aria-label="Anchor link for: other-considerations">Other Considerations</a></h1>
+<h2 id="security-notes"><a class="zola-anchor" href="#security-notes" aria-label="Anchor link for: security-notes">Security Notes</a></h2>
+<p>⚠️ <strong>Important Security Considerations:</strong></p>
+<ul>
+<li><strong>Never share your private key</strong> - Keep it secure</li>
+<li>Consider using a hardware wallet for storing significant funds</li>
+<li>The private key is displayed only once - save it immediately</li>
+</ul>
+<h2 id="acknowledgments"><a class="zola-anchor" href="#acknowledgments" aria-label="Anchor link for: acknowledgments">Acknowledgments</a></h2>
+<ul>
+<li>Built with <a href="https://docs.solana.com/developing/clients/rust-api">Solana SDK</a></li>
+<li>Powered by <a href="https://github.com/rayon-rs/rayon">Rayon</a> for parallel processing</li>
+<li>CLI parsing with <a href="https://github.com/clap-rs/clap">Clap</a></li>
+</ul>
+<h2 id="support"><a class="zola-anchor" href="#support" aria-label="Anchor link for: support">Support</a></h2>
+<p>For issues, questions, or suggestions, please open an issue on <a href="https://github.com/stevenlusonggao/solana_vanity_address">Github</a>. Contributions are welcome! Please feel free to submit a Pull Request.</p>
+
+                </section>
+            </article>
+        </main>
+    </div>
+
+
+
+            
+                
+            
+
+            
+        </div>
+
+        <div class="right-content">
+            
+    
+    
+        <div class="toc">
+    <div class="heading">Table of Contents</div>
+    <ul class="toc-list">
+        
+            <li class="parent">
+                
+                <a href="https://stevenlusonggao.github.io/blog/posts/solana-vanity-address/#features">Features</a>
+
+                
+            </li>
+        
+            <li class="parent">
+                
+                <a href="https://stevenlusonggao.github.io/blog/posts/solana-vanity-address/#installation">Installation</a>
+
+                
+            </li>
+        
+            <li class="parent">
+                
+                <a href="https://stevenlusonggao.github.io/blog/posts/solana-vanity-address/#usage">Usage</a>
+
+                
+                    <ul>
+                        
+                            
+                            <li>
+                                <a href="https://stevenlusonggao.github.io/blog/posts/solana-vanity-address/#basic-usage">Basic Usage</a>
+                            </li>
+
+                            
+                        
+                            
+                            <li>
+                                <a href="https://stevenlusonggao.github.io/blog/posts/solana-vanity-address/#command-line-options">Command-Line Options</a>
+                            </li>
+
+                            
+                        
+                            
+                            <li>
+                                <a href="https://stevenlusonggao.github.io/blog/posts/solana-vanity-address/#examples">Examples</a>
+                            </li>
+
+                            
+                                <ul>
+                                    
+                                        <li>
+                                            <a href="https://stevenlusonggao.github.io/blog/posts/solana-vanity-address/#generate-a-prefix-vanity-address">Generate a Prefix Vanity Address</a>
+                                        </li>
+                                    
+                                        <li>
+                                            <a href="https://stevenlusonggao.github.io/blog/posts/solana-vanity-address/#generate-a-suffix-vanity-address">Generate a Suffix Vanity Address</a>
+                                        </li>
+                                    
+                                        <li>
+                                            <a href="https://stevenlusonggao.github.io/blog/posts/solana-vanity-address/#match-either-prefix-or-suffix">Match Either Prefix or Suffix</a>
+                                        </li>
+                                    
+                                        <li>
+                                            <a href="https://stevenlusonggao.github.io/blog/posts/solana-vanity-address/#case-sensitive-matching">Case-Sensitive Matching</a>
+                                        </li>
+                                    
+                                        <li>
+                                            <a href="https://stevenlusonggao.github.io/blog/posts/solana-vanity-address/#disable-flexible-character-matching">Disable Flexible Character Matching</a>
+                                        </li>
+                                    
+                                </ul>
+                            
+                        
+                    </ul>
+                
+            </li>
+        
+            <li class="parent">
+                
+                <a href="https://stevenlusonggao.github.io/blog/posts/solana-vanity-address/#performance-tips">Performance Tips</a>
+
+                
+            </li>
+        
+            <li class="parent">
+                
+                <a href="https://stevenlusonggao.github.io/blog/posts/solana-vanity-address/#base58-character-set">Base58 Character Set</a>
+
+                
+            </li>
+        
+            <li class="parent">
+                
+                <a href="https://stevenlusonggao.github.io/blog/posts/solana-vanity-address/#other-considerations">Other Considerations</a>
+
+                
+                    <ul>
+                        
+                            
+                            <li>
+                                <a href="https://stevenlusonggao.github.io/blog/posts/solana-vanity-address/#security-notes">Security Notes</a>
+                            </li>
+
+                            
+                        
+                            
+                            <li>
+                                <a href="https://stevenlusonggao.github.io/blog/posts/solana-vanity-address/#acknowledgments">Acknowledgments</a>
+                            </li>
+
+                            
+                        
+                            
+                            <li>
+                                <a href="https://stevenlusonggao.github.io/blog/posts/solana-vanity-address/#support">Support</a>
+                            </li>
+
+                            
+                        
+                    </ul>
+                
+            </li>
+        
+    </ul>
+</div>
+
+    
+
+        </div>
+    </body>
+
+</html>
